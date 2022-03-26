@@ -6,17 +6,20 @@
 #  - - - - - - - - - - - - - - 
 
 LANGUAGE=$(locale | grep -Eo '^LANGUAGE=\w{5}' | cut -d '=' -f 2)
-
 PERCENT=$(cat /sys/class/power_supply/BAT0/capacity)
 STATUS=$(cat /sys/class/power_supply/BAT0/status)
 
+PERCENT_CRITICAL_DEFAULT=38
+PERCENT_FULL_DEFAULT=100
+
 NOTIFICATION=$(cat /tmp/battery_notify.conf || echo 'listen')
 
-if [ "$STATUS" != "Discharging" ] && [ "$STATUS" != "Full" ]; then
+if [ "$PERCENT" -lt "${NOTIFY_PERCENT_CRITICAL:-$PERCENT_CRITICAL_DEFAULT}" ] && [ "$PERCENT" -gt "${NOTIFY_PERCENT_LOW:-$PERCENT_FULL_DEFAULT}" ]; then
+
     echo "listen" > /tmp/battery_notify.conf
 fi
 
-if [ "$PERCENT" -le "${NOTIFY_PERCENT_CRITICAL:-38}" ] && [ "$STATUS" == "Discharging" ] && [ "$NOTIFICATION" == "listen" ]; then
+if [ "$PERCENT" -le "${NOTIFY_PERCENT_CRITICAL:-PERCENT_CRITICAL_DEFAULT}" ] && [ "${STATUS^^}" == "discharging" ] && [ "$NOTIFICATION" == "listen" ]; then
     if [ "$LANGUAGE" == "pt_BR" ]; then
         notify-send -u critical -t 50000 -i battery-caution "Bateria em $PERCENT%" "É recomendado recarregar a bateria"
     else
@@ -26,7 +29,7 @@ if [ "$PERCENT" -le "${NOTIFY_PERCENT_CRITICAL:-38}" ] && [ "$STATUS" == "Discha
     echo "not-listen" > /tmp/battery_notify.conf
 fi
 
-if [ "$PERCENT" -eq "${NOTIFY_PERCENT_LOW:-100}" ] &&  [ "$STATUS" == "Full" ] && [ "$NOTIFICATION" == "listen" ]; then
+if [ "$PERCENT" -eq "${NOTIFY_PERCENT_LOW:-$PERCENT_FULL_DEFAULT}" ] &&  [ "${STATUS^^}" == "full" ] && [ "$NOTIFICATION" == "listen" ]; then
 
     if [ "$LANGUAGE" == "pt_BR" ]; then
         notify-send -u normal -t 50000 -i  battery-full 'Bateria cheia'
