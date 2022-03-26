@@ -10,7 +10,7 @@
 </div>
 
 - [Installation](#Installation)
-- [Configuration](#Custom%20settings)
+- [Configuration](#custom-settings)
 
 ## Installation
 
