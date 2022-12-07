@@ -20,9 +20,9 @@
 
 ## Custom settings
 
-You can customize battery percentage in critical and maximum mode. You just need to export the variable in your `.bashrc` ou `.zshrc`.
+You can customize battery percentage in critical and maximum mode. You just need to edit the crontab with the command `crontab -e`
 
 ```bash
-export NOTIFY_PERCENT_CRITICAL=20 #default 38
-export NOTIFY_PERCENT_LOW=90 #default 100
+NOTIFY_PERCENT_CRITICAL=20 #default 30
+NOTIFY_PERCENT_LOW=80 #default 90
 ```
