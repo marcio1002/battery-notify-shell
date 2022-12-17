@@ -5,10 +5,12 @@
 # |                            |
 #  - - - - - - - - - - - - - -
 
+# Sets default values ​​for variables
 PERCENT_CRITICAL_DEFAULT=30
 PERCENT_FULL_DEFAULT=100
 NOTIFY_PATH_LOG="/tmp/battery_notify.conf"
 
+# Get battery information
 NOTIFY_LANGUAGE=$(locale | grep -Eo '^LANGUAGE=\w{5}' | cut -d '=' -f 2)
 NOTIFY_PERCENT=$(cat /sys/class/power_supply/BAT0/capacity)
 NOTIFY_STATUS=$(cat /sys/class/power_supply/BAT0/status)
@@ -32,8 +34,8 @@ if [ "$NOTIFY_PERCENT" -le "${NOTIFY_PERCENT_CRITICAL:-$PERCENT_CRITICAL_DEFAULT
     echo "not-listen" >$NOTIFY_PATH_LOG
 fi
 
-if [ "$NOTIFY_PERCENT" -eq "${NOTIFY_PERCENT_LOW:-$PERCENT_FULL_DEFAULT}" ] &&
-    [ "$NOTIFY_STATUS" = "Full" ] && [ "$NOTIFICATION" = "listen" ]; then
+if [ "$NOTIFY_PERCENT" -ge "${NOTIFY_PERCENT_LOW:-$PERCENT_FULL_DEFAULT}" ] &&
+    [ "$NOTIFY_STATUS" = "Charging" ] && [ "$NOTIFICATION" = "listen" ]; then
 
     if [ "$NOTIFY_LANGUAGE" == "pt_BR" ]; then
         notify-send -u low -t 50000 -i battery-full 'Bateria cheia'
