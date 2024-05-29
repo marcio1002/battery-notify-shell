@@ -26,9 +26,19 @@ fi
 if [ "$NOTIFY_PERCENT" -le "${NOTIFY_PERCENT_CRITICAL:-$PERCENT_CRITICAL_DEFAULT}" ] &&
     [ "$NOTIFY_STATUS" = "Discharging" ] && [ "$NOTIFICATION" = "listen" ]; then
     if [ "$NOTIFY_LANGUAGE" == "pt_BR" ]; then
-        notify-send -u critical -t 50000 -i battery-caution "Bateria em $NOTIFY_PERCENT%" "É recomendado recarregar a bateria"
+        notify-send \
+            -u critical \
+            -t 50000 \
+            -i battery-caution \
+            "Bateria em $NOTIFY_PERCENT%" \
+            "É recomendado recarregar a bateria"
     else
-        notify-send -u critical -t 50000 -i battery-caution "$NOTIFY_PERCENT% battery" "It is recommended to recharge the battery"
+        notify-send \
+            -u critical \
+            -t 50000 \
+            -i battery-caution \
+            "$NOTIFY_PERCENT% battery" \
+            "It is recommended to recharge the battery"
     fi
 
     echo "not-listen" >$NOTIFY_PATH_LOG
@@ -38,9 +48,19 @@ if [ "$NOTIFY_PERCENT" -ge "${NOTIFY_PERCENT_LOW:-$PERCENT_FULL_DEFAULT}" ] &&
     [ "$NOTIFY_STATUS" = "Charging" ] && [ "$NOTIFICATION" = "listen" ]; then
 
     if [ "$NOTIFY_LANGUAGE" == "pt_BR" ]; then
-        notify-send -u low -t 50000 -i battery-full 'Bateria cheia'
+        notify-send \
+            -u low \
+            -t 50000 \
+            -i battery-full \
+            'Bateria cheia' \
+            'Retire o carregador da tomada'
     else
-        notify-send -u low -t 50000 -i battery-full 'Battery full'
+        notify-send \
+            -u low \
+            -t 50000 \
+            -i battery-full \
+            'Battery full' \
+            'Remove the charger from the socket'
     fi
 
     echo "not-listen" >$NOTIFY_PATH_LOG
