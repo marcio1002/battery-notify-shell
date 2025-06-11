@@ -16,8 +16,7 @@ echo "
 NOTIFY_PERCENT_CRITICAL=30
 NOTIFY_PERCENT_LOW=90
 
-*/1 * * * * DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus $CURRENT_PATH/battery-notify.sh" |
-  sudo tee -a ./crontab_tmp >/dev/null
+*/1 * * * * $CURRENT_PATH/battery-notify.sh" | sudo tee -a ./crontab_tmp >/dev/null
 
 crontab -u "$USER" ./crontab_tmp
 sudo rm crontab_tmp

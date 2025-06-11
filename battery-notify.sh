@@ -5,6 +5,12 @@
 # |                            |
 #  - - - - - - - - - - - - - -
 
+# Exports interface in crontab
+export DISPLAY=:0
+export XAUTHORITY=/home/$USER/.Xauthority
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+export DBUS_SESSION_BUS_ADDRESS
+
 # Sets default values ​​for variables
 PERCENT_CRITICAL_DEFAULT=30
 PERCENT_FULL_DEFAULT=100
