@@ -6,6 +6,7 @@
 #  - - - - - - - - - - - - - -
 
 # Exports interface in crontab
+USER=$(whoami)
 export DISPLAY=:0
 export XAUTHORITY=/home/$USER/.Xauthority
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
